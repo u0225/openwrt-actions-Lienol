@@ -46,8 +46,9 @@ jobs:
       env: 
         REPO_URL: https://github.com/u0225/openwrt-actions-Lienol
       run: git clone --depth 1 $REPO_URL openwrt-config
-           cd openwrt
-           cp -r ../openwrt-config/app/luci-app-cifs-mount package/diy/luci-app-cifs-mount
+
+    - name: Custom app
+      run: cd openwrt && cp -r ../openwrt-config/app/luci-app-cifs-mount package/diy/luci-app-cifs-mount
 
     - name: Git clone themes and luci-app
       run: |
