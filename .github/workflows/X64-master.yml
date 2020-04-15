@@ -47,8 +47,8 @@ jobs:
         REPO_URL: https://github.com/u0225/openwrt-actions-Lienol
       run: git clone --depth 1 $REPO_URL openwrt-config
 
-      - name: Git clone themes and luci-app
-        run: |
+    - name: Git clone themes and luci-app
+      run: |
           cd openwrt/package
           mkdir openwrt-packages
           cd openwrt-packages
