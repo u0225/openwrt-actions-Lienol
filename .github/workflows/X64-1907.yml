@@ -13,8 +13,8 @@ on:
     types: [published]
   watch:
     types: [started]
-  schedule:
-    - cron: 00 11 * * 2,4,6
+#   schedule:
+#     - cron: 00 11 * * 2,4,6
 #  push:
 #    branches: 
 #      - master
