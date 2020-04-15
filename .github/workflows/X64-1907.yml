@@ -5,11 +5,15 @@
 # Author: P3TERX
 # Blog: https://p3terx.com
 #=================================================
-name: X64-1907
+name: OpenWrt-x86_64-1907
 
 on:
+  release:
+    types: [published]
+  watch:
+    types: [started]
   schedule:
-    - cron: 0 20 * * *
+    - cron: 00 11 * * 2,4,6
 #  push:
 #    branches: 
 #      - master
@@ -30,30 +34,36 @@ jobs:
           sudo ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
           sudo -E apt-get -y autoremove --purge
           sudo -E apt-get clean
-          
+
     - name: Clone source code
       env: 
         REPO_URL: https://github.com/Lienol/openwrt
         REPO_BRANCH: dev-19.07
       run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
-      
+
     - name: Clone Config
       env: 
-        REPO_URL: https://github.com/Lienol/openwrt-actions
+        REPO_URL: https://github.com/u0225/openwrt-actions-Lienol
       run: git clone --depth 1 $REPO_URL openwrt-config
-      
+
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
 
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
-    
+
+    - name: Custom diy file
+      run: |
+          cd openwrt
+          rm -f package/default-settings/files/zzz-default-settings
+          cp ../openwrt-config/1907-zzz-default-settings package/default-settings/files/zzz-default-settings
+
     - name: Custom configure file
       run: |
           cd openwrt
           rm -f .config
           cp ../openwrt-config/x64-1907 .config
-          
+
     - name: Make Defconfig
       run: |
           cd openwrt
@@ -88,5 +98,5 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@master
       with:
-        name: OpenWrt firmware
+        name: OpenWrt-x86_64-1907-firmware
         path: ./artifact/
